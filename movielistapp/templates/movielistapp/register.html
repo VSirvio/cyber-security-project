@@ -4,14 +4,14 @@
     </head>
 
     <body>
-    	<h1>Register</h1>
-		<form action="/register/" method="POST">
-			{% csrf_token %}
-			<label for="username">Username:</label><br/>
-			<input type="text" id="username" name="username"/><br/>
-			<label for="password">Password:</label><br/>
-			<input type="password" id="password" name="password"/><br/>
-			<input type="submit" value="Register"/>
-		</form>
+        <h1>Register</h1>
+        <form action="/register/" method="POST">
+            {% csrf_token %}
+            <label for="username">Username:</label><br/>
+            <input type="text" id="username" name="username" maxlength="30"/><br/>
+            <label for="password">Password:</label><br/>
+            <input type="password" id="password" name="password" maxlength="30"/><br/>
+            <input type="submit" value="Register"/>
+        </form>
     </body>
 </html>
