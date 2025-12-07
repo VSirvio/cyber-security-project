@@ -4,15 +4,15 @@
     </head>
 
     <body>
-    	<h1>Login</h1>
-		<form action="/login/" method="POST">
-			{% csrf_token %}
-			<label for="username">Username:</label><br/>
-			<input type="text" id="username" name="username"/><br/>
-			<label for="password">Password:</label><br/>
-			<input type="password" id="password" name="password"/><br/>
-			<input type="submit" value="Login"/>
-		</form>
-		<a href="/registerpage/">Register</a>
+        <h1>Login</h1>
+        <form action="/login/" method="POST">
+            {% csrf_token %}
+            <label for="username">Username:</label><br/>
+            <input type="text" id="username" name="username" maxlength="30"/><br/>
+            <label for="password">Password:</label><br/>
+            <input type="password" id="password" name="password" maxlength="30"/><br/>
+            <input type="submit" value="Login"/>
+        </form>
+        <a href="/registerpage/">Register</a>
     </body>
 </html>
