@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Add movie</title>
+    </head>
+
+    <body>
+    	<h1>Add a movie</h1>
+		<form action="/add/" method="POST">
+			{% csrf_token %}
+			<label for="title">Title:</label><br/>
+			<input type="text" id="title" name="title"/><br/>
+			<input type="submit" value="Add"/>
+		</form>
+	</body>
+</html>
