@@ -4,6 +4,11 @@
     </head>
 
     <body>
+        <div style="text-align: right">
+            <strong>Current user:</strong>
+            {{username}}
+            <a href="/logout/">Logout</a>
+        </div>
         <h1>Movie list</h1>
         <ul>
             {% for movie in movies %}

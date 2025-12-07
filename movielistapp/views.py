@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
@@ -13,6 +13,10 @@ def loginView(request):
     password = request.POST.get('password')
     auth_user = authenticate(request, username=username, password=password)
     login(request, auth_user)
+    return redirect('home')
+
+def logoutView(request):
+    logout(request)
     return redirect('home')
 
 def registerPageView(request):
@@ -34,7 +38,8 @@ def homePageView(request):
 
 def listPageView(request):
     movies = Movie.objects.all()
-    return render(request, 'movielistapp/index.html', {'movies': movies})
+    params = {'movies': movies, 'username': request.user.username}
+    return render(request, 'movielistapp/index.html', params)
 
 def movieAddingPageView(request):
     return render(request, 'movielistapp/add.html')
