@@ -5,6 +5,9 @@
 
     <body>
         <h1>Add a movie</h1>
+        {% if error %}
+            <div style="color: red">{{error}}</div>
+        {% endif %}
         <form action="/add/" method="POST">
             {% csrf_token %}
             <label for="title">Title:</label><br/>

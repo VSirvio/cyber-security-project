@@ -5,6 +5,9 @@
 
     <body>
         <h1>Register</h1>
+        {% if error %}
+            <div style="color: red">{{error}}</div>
+        {% endif %}
         <form action="/register/" method="POST">
             {% csrf_token %}
             <label for="username">Username:</label><br/>

@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
@@ -11,9 +13,11 @@ def loginPageView(request):
 def loginView(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
-    auth_user = authenticate(request, username=username, password=password)
-    login(request, auth_user)
-    return redirect('home')
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return redirect('home')
+    return render(request, 'movielistapp/login.html', {'error': 'Invalid username or password'})
 
 def logoutView(request):
     logout(request)
@@ -25,6 +29,18 @@ def registerPageView(request):
 def registerView(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
+
+    if (not isinstance(username, str) or not isinstance(password, str) or
+            len(username) < 1 or len(username) > 30 or
+            len(password) < 1 or len(password) > 30 or
+            re.fullmatch(r'\w*', username) is None or
+            re.fullmatch(r'\w*', password) is None):
+        return render(
+            request,
+            'movielistapp/register.html',
+            {'error': 'Username and password should consist of 1-30 alphanumeric characters'}
+        )
+
     new_user = User.objects.create_user(username=username, password=password)
     new_user.save()
     auth_user = authenticate(request, username=username, password=password)
@@ -46,6 +62,14 @@ def movieAddingPageView(request):
 
 def addView(request):
     movie_title = request.POST.get('title')
+    if (not isinstance(movie_title, str) or
+            len(movie_title) < 1 or len(movie_title) > 100):
+        return render(
+            request,
+            'movielistapp/add.html',
+            {'error': 'Movie title should be 1-100 characters'}
+        )
+
     new_movie = Movie.objects.create(title=movie_title)
     new_movie.save()
     return redirect('home')
