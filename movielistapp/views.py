@@ -8,9 +8,13 @@ from .models import Movie
 
 
 def loginPageView(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     return render(request, 'movielistapp/login.html')
 
 def loginView(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(request, username=username, password=password)
@@ -20,13 +24,19 @@ def loginView(request):
     return render(request, 'movielistapp/login.html', {'error': 'Invalid username or password'})
 
 def logoutView(request):
-    logout(request)
+    if request.user.is_authenticated:
+        logout(request)
     return redirect('home')
 
 def registerPageView(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     return render(request, 'movielistapp/register.html')
 
 def registerView(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
     username = request.POST.get('username')
     password = request.POST.get('password')
 
@@ -53,14 +63,21 @@ def homePageView(request):
     return redirect('loginpage')
 
 def listPageView(request):
+    if not request.user.is_authenticated:
+        return redirect('loginpage')
     movies = Movie.objects.all()
     params = {'movies': movies, 'username': request.user.username}
     return render(request, 'movielistapp/index.html', params)
 
 def movieAddingPageView(request):
+    if not request.user.is_authenticated:
+        return redirect('loginpage')
     return render(request, 'movielistapp/add.html')
 
 def addView(request):
+    if not request.user.is_authenticated:
+        return redirect('loginpage')
+
     movie_title = request.POST.get('title')
     if (not isinstance(movie_title, str) or
             len(movie_title) < 1 or len(movie_title) > 100):
