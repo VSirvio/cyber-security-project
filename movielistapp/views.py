@@ -1,4 +1,5 @@
 import re
+import sqlite3
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -87,13 +88,18 @@ def addView(request):
 
     movie_title = request.POST.get('title')
     if (not isinstance(movie_title, str) or
-            len(movie_title) < 1 or len(movie_title) > 100):
+            len(movie_title) < 1 or len(movie_title) > 1000):
         return render(
             request,
             'movielistapp/add.html',
             {'error': 'Movie title should be 1-100 characters'}
         )
 
-    new_movie = Movie.objects.create(title=movie_title, user=request.user)
-    new_movie.save()
+#    new_movie = Movie.objects.create(title=movie_title, user=request.user)
+#    new_movie.save()
+    conn = sqlite3.connect('db.sqlite3')
+    cursor = conn.cursor()
+    cursor.executescript(f'INSERT INTO movielistapp_movie (title, user_id) VALUES ("{movie_title}", {request.user.id})')
+    conn.commit()
+
     return redirect('home')
