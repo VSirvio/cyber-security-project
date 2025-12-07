@@ -65,7 +65,7 @@ def homePageView(request):
 def listPageView(request):
     if not request.user.is_authenticated:
         return redirect('loginpage')
-    movies = Movie.objects.all()
+    movies = Movie.objects.filter(user=request.user)
     params = {'movies': movies, 'username': request.user.username}
     return render(request, 'movielistapp/index.html', params)
 
@@ -87,6 +87,6 @@ def addView(request):
             {'error': 'Movie title should be 1-100 characters'}
         )
 
-    new_movie = Movie.objects.create(title=movie_title)
+    new_movie = Movie.objects.create(title=movie_title, user=request.user)
     new_movie.save()
     return redirect('home')
