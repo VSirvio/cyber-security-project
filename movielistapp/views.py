@@ -2,6 +2,7 @@ import re
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .models import Movie
@@ -66,8 +67,14 @@ def listPageView(request):
     if not request.user.is_authenticated:
         return redirect('loginpage')
     movies = Movie.objects.filter(user=request.user)
-    params = {'movies': movies, 'username': request.user.username}
-    return render(request, 'movielistapp/index.html', params)
+#    return render(
+#        request,
+#        'movielistapp/index.html',
+#        {'movies': movies, 'username': request.user.username}
+#    )
+    return HttpResponse(
+        '<ul>' + ''.join('<li>' + movie.title + '</li>' for movie in movies) + '</ul>'
+    )
 
 def movieAddingPageView(request):
     if not request.user.is_authenticated:
