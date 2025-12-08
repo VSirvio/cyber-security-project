@@ -99,6 +99,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#PASSWORD_HASHERS = ['django.contrib.auth.hashers.PBKDF2PasswordHasher']
+PASSWORD_HASHERS = ['movielistproject.hashers.SimpleHasher']
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
