@@ -12,4 +12,5 @@ urlpatterns = [
     path('listpage/', listPageView, name='listpage'),
     path('addingpage/', movieAddingPageView, name='addingpage'),
     path('add/', addView, name='add'),
+    path('userlist/', userListView, name='userlist'),
 ]

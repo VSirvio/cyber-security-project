@@ -3,7 +3,7 @@ import sqlite3
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
 
 from .models import Movie
@@ -103,3 +103,9 @@ def addView(request):
     conn.commit()
 
     return redirect('home')
+
+def userListView(request):
+#    if not request.user.is_superuser:
+#        return HttpResponseForbidden('403 forbidden')
+    users = [user.get_username() for user in User.objects.all()]
+    return render(request, 'movielistapp/users.html', {'users': users})
